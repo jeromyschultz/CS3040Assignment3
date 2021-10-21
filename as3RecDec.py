@@ -1,17 +1,24 @@
+token = 0
+print("Enter a string")
+complexInput = input().split()
+complexlen = len(complexInput)
+
 def main():
-    complexInput = input().split()
     parse_Plans()
+
 
 #Returns the next token
 def next_token():
-    return None
+    return complexInput[token]
 
 #Advances token forward
 def advance():
-    return None
+    complexInput.pop(0)
 
 def parse_Plans():
-    return None
+    for x in range(complexlen):
+        print(next_token())
+        advance()
 
 def parse_Complex():
     return None
@@ -34,9 +41,16 @@ def parse_RoomList():
 def parse_Room():
     return None
 
-def parse_Name():
-    return None
+def parse_Name(expected):
+    if next_token == expected:
+        advance()
+    else:
+        print("Expected \"" + expected + "\" on line ")
 
 def parse_Number():
-    return None
+    if next_token().isnumeric:
+        advance()
+    else:
+        print("Number Expected")
 
+main()
