@@ -1,0 +1,5 @@
+floor LL has rooms [ 800 by 400 , 10 by 20]
+complex
+building A with floors { CC , CC }
+building D with floors { CC }
+building Y wiht floor { CC }
