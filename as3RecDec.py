@@ -13,7 +13,16 @@ def next_token():
 
 #Advances token forward
 def advance():
-    complexInput.pop(0)
+    if complexInput:
+        complexInput.pop(0)
+
+#Returns true if expected matches next_token and prints an error if false
+def expected(value):
+    if next_token != value:
+        print("\'" + value + "\' expected")
+        return False
+    else:
+        return True
 
 def parse_Plans():
     parse_Floor()
@@ -22,54 +31,60 @@ def parse_Plans():
     parse_Complex()
 
 def parse_Complex():
-    return None
+    if expected('complex'):
+        advance()
+        parse_Building()
+    while(next_token() == "building"):
+        parse_Building()
 
 def parse_Building():
-    return None
+    if expected('building'):
+        parse_Name()
+    if expected('with'):
+        advance()
+    if expected('floors') or expected('floor'):
+        advance()
+        parse_FloorList()
 
 def parse_FloorList():
-    return None
+    if expected('{'):
+        advance()
+        parse_FloorReference()
+    while next_token() == ',':
+        parse_FloorReference()
+    if expected('}'):
+        advance()
 
 def parse_FloorReference():
-    return None
+    parse_Name()
 
 def parse_Floor():
-    if(next_token() != 'floor'):
-        print("\'floor\' expected")
-    else:
+    if expected('floor'):
         advance()
-    parse_Name()
-    if(next_token() != 'has'):
-        print("\'has\' expected")
-    else:
+        parse_Name()
+    if expected('has'):
         advance()
-    if(next_token() != 'room' or next_token != 'rooms'):
+    if next_token() != 'room' or next_token != 'rooms':
         print("\'room(s)\' expected")
     else:
         advance()
-    parse_RoomList()
+        parse_RoomList()
 
 def parse_RoomList():
-    if(next_token() != '['):
-        print("\'[\' expected")
-    else:
+    if expected('['):
         advance()
         parse_Room()
-    while(next_token() == ','):
+    while next_token() == ',':
         advance()
         parse_Room()
-    if(next_token() != ']'):
-        print("\']\' expected")
-    else:
+    if expected(']'):
         advance()
 
 def parse_Room():
     parse_Number()
-    if(next_token() != 'by'):
-        print("\'by\' expected")
-    else:
+    if expected('by'):
         advance()
-    parse_Number()
+        parse_Number()
 
 def parse_Name():
     if not next_token().isalpha():
