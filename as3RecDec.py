@@ -13,6 +13,9 @@ complexlen = len(complexInput)
 #Regular expression for checking if name
 name = re.compile("[A-Z_]+")
 
+listRooms = []
+listBuilding = []
+
 def main():
     parse_Plans()
 
@@ -70,9 +73,10 @@ def parse_Building():
 #Parses FloorList
 # This should store the list of floors in a building
 def parse_FloorList():
+    refList = []
     if expected('{'):
         advance()
-        parse_FloorReference()
+        refList.append(parse_FloorReference())
     while next_token() == ',':
         advance()
         parse_FloorReference()
@@ -81,45 +85,54 @@ def parse_FloorList():
 
 #Parses floors references
 def parse_FloorReference():
-    parse_Name()
+    return parse_Name()
 
 def parse_Floor():
+    floorFootage = 0
+    floorName = ""
     if expected('floor'):
         advance()
-        parse_Name()
+        floorName = parse_Name()
     if expected('has'):
         advance()
     if next_token() == 'room' or next_token() == 'rooms':
         advance()
-        parse_RoomList()
+        floorFootage = parse_RoomList()
     else:
         print("\'room(s)\' expected on line " + str(lineNum))
         advanceEnd()
+    return(floorName, floorFootage)
 
 #Parse list of rooms
 def parse_RoomList():
+    totalFootage = 0
     if expected('['):
         advance()
-        parse_Room()
+        totalFootage += parse_Room()
     while next_token() == ',':
         advance()
-        parse_Room()
+        totalFootage += parse_Room()
     if expected(']'):
         advance()
+    return totalFootage
 #Parses rooms
 # This should store room dimensions to be used in floor square footage calculation
 def parse_Room():
-    parse_Number()
+    footage = parse_Number()
     if expected('by'):
         advance()
-        parse_Number()
+        footage *= parse_Number()
+    return footage
 #Parses Names
 def parse_Name():
+    value = next_token()
     if not name.fullmatch(next_token()):
         print("Name cannot contain non alphebetical numbers")
         advanceEnd()
+        return ""
     else:
         advance()
+    return value
 
 #Parses Numbers
 # Should convert string to number to be used in calculations
@@ -127,7 +140,10 @@ def parse_Number():
     if not next_token().isnumeric:
         print("Number Expected")
         advanceEnd()
+        return 0
     else:
+        value = int(next_token())
         advance()
+        return value
 
 main()
