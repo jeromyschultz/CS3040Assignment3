@@ -81,6 +81,8 @@ def parse_Building():
         parse_FloorList()
     else:
         print("\'floor(s)\' expected on line " + str(lineNum))
+        exit()
+
 
 
 

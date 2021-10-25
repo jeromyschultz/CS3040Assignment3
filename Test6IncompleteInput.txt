@@ -1,6 +1,6 @@
-floor CC has rooms [ 800 by 400 , 10 by 20]
-flloor FLOOR_TWO has rooms [ 20 by 20 , 20 by 20 , 20 by 20 ]
-floor FLOOR_ONE has rooms [ 40 by 30 , 20 by 20 , 15 by 15 , 30 by 30 ]
+floor CC has rooms [ 800 by 400 , 10 by 20 ]
+floor LL has rooms [ 20 by 20 , 20 by 20 , 20 by 20 ]
+floor LL has rooms [ 40 by 30 , 20 by 20 , 15 by 15 , 30 by 30 ]
 complex
-building A with floors { CC , CC , FLOOR_TWO, FLOOR_ONE }
+building A with floors { CC , CC , LL }
 building D with
